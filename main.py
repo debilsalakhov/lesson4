@@ -1,6 +1,7 @@
 # Вариант 1 - самый простой чат бот, просто отзывается
 
 import telebot  # pyTelegramBotAPI	4.3.1
+from telebot import types
 
 bot = telebot.TeleBot('5150353309:AAHW1DPdYWBmnLyYFHFmmFJpZPstV1wuwGo')  # Создаем экземпляр бота @Salakhov_Shamil_1MD25_bot
 # -----------------------------------------------------------------------
@@ -8,6 +9,8 @@ bot = telebot.TeleBot('5150353309:AAHW1DPdYWBmnLyYFHFmmFJpZPstV1wuwGo')  # Со�
 @bot.message_handler(commands=["start"])
 def start(message, res=False):
     chat_id = message.chat.id
+
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
 
     bot.send_message(chat_id,
                      text="Йоу здорова, {0.first_name}! Я тестовый бот для курса программирования на языке Питон! "
