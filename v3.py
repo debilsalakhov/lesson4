@@ -11,7 +11,7 @@ def start(message, res=False):
 
     bot.send_message(chat_id,
                      text="Йоу здорова, {0.first_name}! Я тестовый бот для курса программирования на языке Питон! "
-                          " я ничего не умею, ".format(message.from_user))
+                          " я умею все, ".format(message.from_user))
 
 
 # -----------------------------------------------------------------------
