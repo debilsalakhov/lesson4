@@ -43,9 +43,11 @@ def get_text_messages(message):
         markup.add(btn1, btn2, back)
         bot.send_message(chat_id, text='Развлечения', reply_markup=markup)
     elif ms_text == '/dog' or ms_text == 'Прислать собаку':
-        bot.send_message(chat_id, text='Еще не готово...')
+        img = open('putin.jpg', 'rb')
+        bot.send_photo(message.chat.id, img)
+        bot.send_message(chat_id, text='Это собака!')
     elif ms_text == 'Прислать анекдот':
-        bot.send_message(chat_id, text='Еще не готово...')
+        bot.send_message(chat_id, text='Какого размера кровать священника? Сложно? Да ладно вам, это ж любой ребенок знает')
     elif ms_text == 'Камера':
         bot.send_message(chat_id, text='Еще не готово...')
     elif ms_text == 'Управление':
@@ -54,11 +56,13 @@ def get_text_messages(message):
         bot.send_message(chat_id, 'Автор: Салахов Шамиль')
         key1 = types.InlineKeyboardMarkup()
         btn1 = types.InlineKeyboardButton(text='Напишите автору', url='https://t.me/debilsalakhov')
-        key1.add(btn1)
+        btn2 = types.InlineKeyboardButton(text='Электронная почта автора', url='bigmoyka@gmail.com')
+        btn3 = types.InlineKeyboardButton(text='Инста автора', url='https://www.instagram.com/debilsalakhov')
+        key1.add(btn1, btn2, btn3)
         img = open('chad.jpg', 'rb')
         bot.send_photo(message.chat.id, img, reply_markup=key1)
     else:
-        bot.send_message(chat_id, text='Я тебя слышу!!! Ваше сообщение: ' + ms_text)
+        bot.send_message(chat_id, text='Понял тебя. Ты написал: ' + ms_text)
 
 # -----------------------------------------------------------------------
 bot.polling(none_stop=True, interval=0)  # Запускаем бота
