@@ -1,7 +1,10 @@
-# Телеграмм бот версии 2.0 - имеет меню
+# Телеграмм бот версии 3.0 - имеет меню, анекдоты и собак
 
 import telebot  # pyTelegramBotAPI	4.3.1
 from telebot import types
+import requests
+import bs4
+
 
 bot = telebot.TeleBot('5150353309:AAHW1DPdYWBmnLyYFHFmmFJpZPstV1wuwGo')  # Создаем экземпляр бота @Salakhov_Shamil_1MD25_bot
 # -----------------------------------------------------------------------
@@ -43,11 +46,11 @@ def get_text_messages(message):
         markup.add(btn1, btn2, back)
         bot.send_message(chat_id, text='Развлечения', reply_markup=markup)
     elif ms_text == '/dog' or ms_text == 'Прислать собаку':
-        img = open('putin.jpg', 'rb')
-        bot.send_photo(message.chat.id, img)
-        bot.send_message(chat_id, text='Это собака!')
+        contents = requests.get('https://random.dog/woof.json').json()
+        urlDOG = contents['url']
+        bot.send_photo(chat_id, photo=urlDOG, caption='Лови собаку!')
     elif ms_text == 'Прислать анекдот':
-        bot.send_message(chat_id, text='Какого размера кровать священника? Сложно? Да ладно вам, это ж любой ребенок знает')
+        bot.send_message(chat_id, text=get_anekdot())
     elif ms_text == 'Камера':
         bot.send_message(chat_id, text='Еще не готово...')
     elif ms_text == 'Управление':
@@ -64,6 +67,15 @@ def get_text_messages(message):
     else:
         bot.send_message(chat_id, text='Понял тебя. Ты написал: ' + ms_text)
 
+# ----------------------------------------------------------------------------------------------------------------------
+def get_anekdot():
+    array_anekdots = []
+    req_anek = requests.get('http://anekdotme.ru/random')
+    soup = bs4.BeautifulSoup(req_anek.text, 'html.parser')
+    result_find = soup.select('.anekdot_text')
+    for result in result_find:
+        array_anekdots.append(result.getText().strip())
+    return array_anekdots[0]
 # -----------------------------------------------------------------------
 bot.polling(none_stop=True, interval=0)  # Запускаем бота
 
